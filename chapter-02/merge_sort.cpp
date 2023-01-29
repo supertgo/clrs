@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-void print_array(int v[], int size) {
+void print_array(int* v, int size) {
   for (int i = 0; i < size ; i++) {
     cout << v[i] << ' ';
   }
@@ -9,7 +9,7 @@ void print_array(int v[], int size) {
   cout << '\n';
 }
 
-void merge(int v[], int left, int mid, int right) {
+void merge(int* v, int left, int mid, int right) {
   auto const left_size = mid - left + 1;
   auto const right_size = right - mid;
 
@@ -52,7 +52,8 @@ void merge(int v[], int left, int mid, int right) {
   delete[] rightArray;
 }
 
-void merge_sort(int v[], int const left, int const right) {
+
+void merge_sort(int* v, int const left, int const right) {
   if (left >= right) return;
 
   auto mid = left + (right - left) / 2;
@@ -63,14 +64,47 @@ void merge_sort(int v[], int const left, int const right) {
   merge(v, left, mid, right);
 }
 
+int binary_search(int *v, int key, int size) {
+  int start = 0;
+  int end = size;
+  int middle;
+
+  while(start <= end && start < size) {
+    middle = (start + end) / 2;
+
+    if (v[middle] == key) return key;
+
+    if (v[middle] > key) {
+      end = middle -1;
+    } else {
+      start = middle + 1;
+    }
+  }
+
+  return -1;
+}
+
+int* two_sum(int* v, int target, int size) {
+  merge_sort(v, 0, 5);
+  int *result = new int[2];
+
+  for (int i = 0; i < size; i++) {
+    int search = binary_search(v, target - v[i], size);
+
+    if (search != -1) {
+      result[0] = search;
+      result[1] = v[i];
+    }
+  }
+
+  return result;
+}
+
 int main () {
   int v[] = {2, 3, 1, 6, 5, 4};
 
-  print_array(v, 6);
-  cout << "merge\n";
-
-  merge_sort(v, 0, 5);
+  int *result = two_sum(v, 3, 6);
   
-  print_array(v, 6);
+  print_array(result, 2);
   return 0;
 }
