@@ -227,3 +227,65 @@ void BST<T>::MorrisInorder() {
       }
     }
 }
+
+template<class T>
+void BST<T>::insert(const T& el) {
+  BSTNode<T> *p = root, *prev = 0;
+  while (p != 0) {
+    prev = p;
+    if (el < p->el)
+      p = p->left;
+    else p = p->right;
+  }
+
+  if (root == 0)
+    root = new BSTNode<T>(el);
+  else if (el < prev->el)
+    prev->left = new BSTNode<T>(el);
+  else prev->right = new BSTNode<T>(el);
+}
+
+template<class T>
+void BST<T>::deleteByMerging(BSTNode<T>*& node) {
+  BSTNode<T> *tmp = node;
+  if (node != 0) {
+    if (!node->right)
+      node = node->left;
+    else if (node->left == 0)
+      node = node->right;
+    else {
+      tmp = node->left;
+      while (tmp->right != 0)
+        tmp = tmp->right;
+      tmp->right = node->right;
+      tmp = node;
+      node = node->left;
+    }
+    delete tmp;
+  }
+}
+
+template<class T>
+void BST<T>::findAndDeleteByMerging(const T& el) {
+  BSTNode<T> *node = root, *prev = 0;
+  while (node != 0) {
+    if (node->el == el)
+      break;
+    prev = node;
+    if (el < node->el)
+      node = node->left;
+    else node = node->right;
+  }
+
+  if (node != 0 && node->el == el)
+    if (node == root)
+      deleteByMerging(root);
+    else if (prev->left == node)
+      deleteByMerging(prev->left);
+    else deleteByMerging(prev->right);
+  else if (root != 0)
+    cout << "element" << el << "is not in the tree\n";
+  else cout << "the tree is empty\n";
+}
+
+#endif
