@@ -46,4 +46,38 @@ void ThreadedTree<T>::inorder() {
   }
 }
 
+template<class T>
+void ThreadedTree<T>::insert(const T& el) {
+  ThreadedNode<t> *p, *prev = 0, *newNode;
+  newNode = new ThreadedNode<T>(el);
+
+  if (root == 0) {
+    root = newNode;
+    return;
+  }
+
+  p = root;
+  while (p != 0) {
+    prev = p;
+    if (p->el > el)
+      p = p->left;
+    else if (p->successor == 0)
+      p = p->right;
+    else break;
+  }
+
+  if (prev->el > el) {
+    prev->left = newNode;
+    newNode->successor = 1;
+    newNode->right = prev;
+  }
+  else if (prev->successor == 1) {
+    newNode->successor = 1;
+    prev->successor = 0;
+    newNode->right = prev->right;
+    prev->right = newNode;
+  }
+  else prev->right = newNode;
+}
+
 #endif
