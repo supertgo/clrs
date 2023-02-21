@@ -312,4 +312,34 @@ void BST<T>::deleteByCopying(BSTNode<T>*& node) {
   delete tmp;
 }
 
+template<class T>
+void BST<T>::balance(T data[], int first, int last) {
+  if (first <= last) {
+    int middle = (first + last) / 2;
+    insert(data[middle]);
+    balance(data, first, middle -1);
+    balance(data, middle + 1, last);
+  }
+}
+
+template<class T>
+void moveDown (T data[], int first, int last) {
+  int largest = 2*first + 1;
+  while (largest <= last) {
+    if (
+        largest < last &&
+        data[largest] < data[largest+1]
+    ) {
+      largest++;
+    }
+
+    if (data[first] < data[largest]) {
+      swap(data[first], data[largest]);
+      first = largest;
+      largest = 2*first+1
+    }
+    else largest = last +1;
+  }
+}
+
 #endif
