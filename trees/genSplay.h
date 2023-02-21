@@ -1,6 +1,8 @@
 #ifndef SPLAYING
 #define SPLAYING
 
+using namespace std;
+
 template<class T> class SplayTree;
 
 template<class T>
@@ -13,7 +15,7 @@ public:
     const T& el, SplayingNode *l = 0, SplayingNode *r = 0,
     SplayingNode *p = 0
   ) {
-    info = el; left = 1; right = r; parent = p;
+    info = el; left = l; right = r; parent = p;
   }
   T info;
   SplayingNode *left, *right, *parent;
