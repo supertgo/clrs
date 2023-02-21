@@ -288,4 +288,28 @@ void BST<T>::findAndDeleteByMerging(const T& el) {
   else cout << "the tree is empty\n";
 }
 
+template<class T>
+void BST<T>::deleteByCopying(BSTNode<T>*& node) {
+  BSTNode<T> *previous, *tmp = node;
+
+  if (node->right == 0)
+    node = node->left;
+  else if (node->left == 0)
+    node = node->right;
+  else {
+    tmp = node->left;
+    previous = node;
+    
+    while (tmp->right != 0) {
+      previous = tmp;
+      tmp = tmp->right;
+    }
+    node->el = tmp->el;
+    if (previous == node)
+      previous->left = tmp->left;
+    else previous->right = tmp->left;
+  }
+  delete tmp;
+}
+
 #endif
