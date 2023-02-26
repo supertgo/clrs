@@ -47,6 +47,9 @@ public:
   bool isEmpty() const {
     return root == 0;
   }
+  void inorder() {
+    inorder(root);
+  }
   void preorder() {
     preorder(root);
   }
