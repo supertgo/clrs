@@ -202,3 +202,15 @@ private:
       }
   }
 };
+
+int main(int argc, string argv[]) {
+  string s1 = "abcabc";
+  string s2 = "cabaca";
+
+  if (argc == 3) {
+    s1 = argv[1];
+    s2 = argv[2];
+  }
+  (new LongestCommonSubstring('a', 'z'))->run(s1, s2);
+  return 0;
+}
